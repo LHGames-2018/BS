@@ -35,9 +35,11 @@ public class Bot extends BaseBot {
                 return gather();
 			}
 			case HOME: {
-				if(player.getPosition()==player.getHousePosition())
-					mainState = State.GATHER;
-				return pathfind(player.getHousePosition());
+				if(player.getPosition()==player.getHousePosition()) {
+					mainState = State.FINDRESOURCE;
+					return findresource();
+				}
+				else { return pathfind(player.getHousePosition()); }
 			}
 			default : {
 				return null;
@@ -48,13 +50,39 @@ public class Bot extends BaseBot {
 	public IAction findresource() {
 		
 		Point nearestMineral = getNearestResourcePoint();
-		if(player.getPosition().equals(nearestAdjacentSpaceOf(nearestMineral))) {
+		
+		
+	    Tile currenTile = map.getTile(player.getPosition());
+	    if (map.getTileAboveOf(currenTile).isResource()){
+			mainState = State.GATHER;
+	        return createCollectAction(Point.UP);
+	    }
+	    else if (map.getTileLeftOf(currenTile).isResource()){
+			mainState = State.GATHER;
+	        return createCollectAction(Point.LEFT);
+	    }
+	    else if (map.getTileRightOf(currenTile).isResource()){
+			mainState = State.GATHER;
+	        return createCollectAction(Point.RIGHT);
+	    }
+	    else if (map.getTileBelowOf(currenTile).isResource()){
+			mainState = State.GATHER;
+	        return createCollectAction(Point.DOWN);
+	    }
+	    
+	    
+		/*if(player.getPosition().equals(nearestAdjacentSpaceOf(nearestMineral))) {
 			mainState = State.GATHER;
 			System.out.println("This will be visible from the dashboard.jkfindresounrrersa");
 			return createCollectAction(directionOf(nearestMineral));
-		}
-			
+		}*/
+		
+	    System.out.println("am moving");
 		return pathfind(nearestAdjacentSpaceOf(nearestMineral));
+		
+		
+		
+		
 	}
 	/**
 	 * Donne l'action que le bot doit executer pout amasser des ressources
@@ -62,11 +90,23 @@ public class Bot extends BaseBot {
 	 */
 	public IAction gather() {
 		Point nearestMineral = getNearestResourcePoint();
-		if(map.getTile(nearestMineral).isEmpty()) {
+		
+	    Tile currenTile = map.getTile(player.getPosition());
+	    if (!map.getTileAboveOf(currenTile).isResource() 
+	    		&& !map.getTileLeftOf(currenTile).isResource()
+	    		&& !map.getTileRightOf(currenTile).isResource()
+	    		&& !map.getTileBelowOf(currenTile).isResource()){
 			mainState = State.HOME;
 			 System.out.println("This will be visible from the dashboard.");
 			return pathfind(player.getHousePosition());
-		}
+	    }
+	    
+		
+		/*if(map.getTile(nearestMineral).isEmpty()) {
+			mainState = State.HOME;
+			 System.out.println("This will be visible from the dashboard.");
+			return pathfind(player.getHousePosition());
+		}*/
 		 System.out.println("This will be visible from the dashboard.jk");
 		 System.out.println(directionOf(nearestMineral).getX());
 		return createCollectAction(directionOf(nearestMineral));
