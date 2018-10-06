@@ -44,7 +44,7 @@ public class Bot extends BaseBot {
 				break;
 			}
 			case GATHER: {
-				//return getGatherAction();
+				return gather();
 				break;
 			}
 			case HOME: {
@@ -65,6 +65,50 @@ public class Bot extends BaseBot {
 	// Courrir tout droit
 	public IAction getRunStraightAction() {
 		return createMoveAction(Point.UP);
+	}
+	
+	public IAction gather() {
+		if (isNextTo(nearestMineral)) {
+			
+		} else {
+			
+			pathfind(nearestMineral);
+		}
+	}
+	
+	public boolean isNextTo(IPoint target) {
+		return nearestAdjacentSpaceOf(target).equals(player.getPosition());
+	}
+	
+	/**
+	 * Donne l'espace adjacent d'une cible le plus pres de nous
+	 * @param target
+	 * @return l'espace
+	 */
+	public IPoint nearestAdjacentSpaceOf(IPoint target) {
+		
+		int diffX = target.getX() - player.getPosition().getX();
+		int diffY = target.getY() - player.getPosition().getY();
+		
+		int targetX = target.getX();
+		int targetY = target.getY();
+		
+		if (Math.abs(diffX) > Math.abs(diffY)) {
+			if (diffX > 0) {
+				targetX--;
+			} else {
+				targetX++;
+			}
+		} else {
+			if (diffY > 0) {
+				targetY--;
+			} else {
+				targetY++;
+			}
+		}
+		
+		return new Point(targetX, targetY);
+		
 	}
 	
 	/**
@@ -93,6 +137,10 @@ public class Bot extends BaseBot {
 		int diffX = target.getX() - player.getPosition().getX();
 		int diffY = target.getY() - player.getPosition().getY();
 		
+		// si le bot est deja a destination
+		if (diffX == 0 && diffY == 0) {
+			return createMoveAction(new Point(0, 0));
+		}
 		
 		// le bot se deplace en ligne droite vers sa destination, ne tient pas compte des obstacles
 		if (Math.abs(diffX) > Math.abs(diffY)) {
