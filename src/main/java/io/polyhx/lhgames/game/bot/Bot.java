@@ -5,6 +5,7 @@ import io.polyhx.lhgames.game.action.*;
 import io.polyhx.lhgames.game.point.*;
 import io.polyhx.lhgames.game.tile.*;
 
+import java.util.HashMap;
 import java.util.List;
 	   
 public class Bot extends BaseBot {
@@ -168,7 +169,7 @@ public class Bot extends BaseBot {
 	 * @param target la destination
 	 * @return un MoveAction dans la bonne direction pour se rendre
 	 */
-	public MoveAction pathfind(IPoint target) {
+	public IAction pathfind(IPoint target) {
 		
 		int diffX = target.getX() - player.getPosition().getX();
 		int diffY = target.getY() - player.getPosition().getY();
@@ -178,19 +179,172 @@ public class Bot extends BaseBot {
 			return createMoveAction(new Point(0, 0));
 		}
 		
-		// le bot se deplace en ligne droite vers sa destination, ne tient pas compte des obstacles
-		if (Math.abs(diffX) > Math.abs(diffY)) {
-			if (diffX > 0) {
-				return createMoveAction(Point.RIGHT);				
-			} else {
-				return createMoveAction(Point.LEFT);
-			}
+		IPoint nextStep = nextOptimalPoint(player.getPosition(), target);
+		
+		return createActionForTile(nextStep);
+		
+		//return createMoveAction(directionOf(target));
+		
+	}
+	
+	/**
+	 * Donne l'action appropriee pour le tile
+	 * @param target
+	 * @return
+	 */
+	public IAction createActionForTile(IPoint target) {
+		
+		Tile tile = this.map.getTile(target);
+		
+		if (tile.isEmpty() || tile.isHouse()) {
+			return createMoveAction(directionOf(target));
+		} else if (tile.isPlayer()) {
+			return createMeleeAttackAction(directionOf(target));
+		} else if (tile.isResource()) {
+			return createCollectAction(directionOf(target));
+		} else if (tile.isWall()) {
+			return createMeleeAttackAction(directionOf(target));
 		} else {
-			if (diffY > 0) {
-				return createMoveAction(Point.DOWN);				
-			} else {
-				return createMoveAction(Point.UP);
+			return createMoveAction(directionOf(target));
+		}
+		
+	}
+	
+	/**
+	 * Donne le meilleur prochain point par ou passer
+	 * @param a
+	 * @param b
+	 */
+	public IPoint nextOptimalPoint(IPoint a, IPoint b) {
+		
+		HashMap<IPoint, AStarNode> open = new HashMap<IPoint, AStarNode>();
+		HashMap<IPoint, AStarNode> closed = new HashMap<IPoint, AStarNode>();
+		
+		AStarNode origin = new AStarNode();
+		origin.gCost = 0;
+		origin.hCost = (int)(a.getDistanceTo(b));
+		origin.fCost = origin.hCost;
+		
+		open.put(origin.p, origin);
+		
+		AStarNode current;
+		AStarNode[] neighbors = new AStarNode[4];
+		
+		while (true) {
+			
+			// trouver le plus petit fcost
+			AStarNode smallest = null;
+			for (java.util.Map.Entry<IPoint, AStarNode> c : open.entrySet()) {
+				if (smallest == null) {
+					smallest = c.getValue();
+				} else if (c.getValue().compareTo(smallest) < 0) {
+					smallest = c.getValue();
+				}
 			}
+			current = smallest;
+			
+			// enlever le plus petit de open
+			open.remove(current.p);
+			
+			// l'ajouter dans closed
+			closed.put(current.p, current);
+			
+			// condition d'arret
+			if (current.p.equals(b)) {
+				while (current.parent != origin) {
+					current = current.parent;
+				}
+				return current.p;
+			}
+			
+			neighbors[0] = new AStarNode(new Point(current.p.getX(), current.p.getY()+1), current, b);
+			neighbors[1] = new AStarNode(new Point(current.p.getX(), current.p.getY()-1), current, b);
+			neighbors[2] = new AStarNode(new Point(current.p.getX()+1, current.p.getY()), current, b);
+			neighbors[3] = new AStarNode(new Point(current.p.getX()-1, current.p.getY()), current, b);
+			
+			for (AStarNode node : neighbors) {
+				if (!closed.containsKey(node.p)) {
+					
+					if (open.containsKey(node.p)) {
+						if (node.compareTo(open.get(node.p)) < 0) {
+							open.put(node.p, node);
+						}
+					} else {
+						open.put(node.p, node);
+					}
+					
+				}
+			}
+			
+		}
+		
+	}
+	
+	private class AStarNode implements Comparable<AStarNode> {
+		public IPoint p;
+		public int hCost;
+		public int gCost;
+		public int fCost;
+		
+		public AStarNode parent;
+		
+		public AStarNode () {
+		}
+		
+		public AStarNode (IPoint p, AStarNode parent, IPoint dest) {
+			this.p = p;
+			this.parent = parent;
+			gCost = parent.gCost + findCostOfTile(p);
+			hCost = (int)(10*p.getDistanceTo(dest));
+			fCost = gCost + hCost;
+		}
+
+		@Override
+		public int compareTo(AStarNode n) {
+			if (n == null || this == null) {
+				return 0;
+			}
+			
+			else if (this.fCost > n.fCost) {
+				return 1;
+			} else if (this.fCost < n.fCost) {
+				return -1;
+			} else if (this.hCost > n.hCost) {
+				return 1;
+			} else if (this.hCost < n.hCost) {
+				return -1;
+			} else {
+				return 0;
+			}
+		}
+		
+		public boolean equals(AStarNode n) {
+			return this.p.equals(n.p);
+		}
+		
+		
+		
+	}
+	
+	public int findCostOfTile (IPoint target) {
+		
+		Tile tile = this.map.getTile(target);
+		
+		if (tile.isEmpty() || tile.isHouse()) {
+			return 10;
+		} else if (tile.isPlayer()) {
+			return 200;
+		} else if (tile.isResource()) {
+			if (player.getCarriedResource() + ((ResourceTile)tile).getResource() >= player.getResourceCapacity()) {
+				return 10000;
+			} else {
+				return 10*((ResourceTile)tile).getResource() / 
+						(int)(((ResourceTile)tile).getDensity()*player.getCollectingSpeed()*100);
+			}
+		} else if (tile.isWall()) {
+			return 10*(int)Math.ceil(5.0/player.getAttack());
+		} else {
+			return 10000;
 		}
 		
 	}
