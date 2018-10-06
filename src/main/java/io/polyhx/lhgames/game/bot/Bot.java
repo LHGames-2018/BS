@@ -24,16 +24,14 @@ public class Bot extends BaseBot {
 	private GameInfo info;
 	private Player enemy;
 	int i = 0;
-	int j = 0;
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		
-		if (i < 2) {
+		if (i < 9) {
 			i++;
 			return createMoveAction(Point.RIGHT);
 		}
 		else
 			return createCollectAction(Point.RIGHT);
-		return null;
 		/*this.map = map;
 		this.player = player;
 		this.others = others;
