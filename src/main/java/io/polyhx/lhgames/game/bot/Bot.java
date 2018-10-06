@@ -11,21 +11,14 @@ import java.util.List;
 public class Bot extends BaseBot {
 	private int i = 0; 
     public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
-    	if (i <= 5) {
-    		i++;
-    		return createMoveAction(Point.UP);
-    	}
-    	else if ( i  <=  9) {
+    	if (i <= 9) {
     		i++;
     		return createMoveAction(Point.LEFT);
     	}
-    	
     	else if ( i  <=  12) {
-    		return createMoveAction(Point.RIGHT);
+    		i++;
+    		return createMoveAction(Point.UP);
     	}
-    	
-    	else{
-    		return createCollectAction(Point.RIGHT);
-    	}
+
     } 
 }
