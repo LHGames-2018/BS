@@ -6,9 +6,12 @@ import io.polyhx.lhgames.game.point.*;
 import io.polyhx.lhgames.game.tile.*;
 
 import java.util.List;
-
+	   
 public class Bot extends BaseBot {
 
+	//constantes, idk how to declare it outside
+	public static final int MAX_DISTANCE_BETWEEN_PLAYERS = 10;
+	
 	// Etats possibles, ajoutez-en tant que vous voulez.
 	private enum State {RUN_STRAIGHT, ATTACK, MOVE, GATHER, HOME, FLEE};
 
@@ -108,6 +111,22 @@ public class Bot extends BaseBot {
 	}
 	
 	/**
+	 * Donne la position de la ressource la plus proche
+	 * @param carte, joueur
+	 * @return position de la ressource la plus proche
+	 */
+	public Point getNearestResourcePoint(Map map, Player player){
+		List<ResourceTile> resources = map.getResources();
+		Point positionPlayer = player.getPosition();
+		Point nearest = new Point();
+		for(int i = 0; i < resources.size(); i++) {
+			if(positionPlayer.getDistanceTo(resources.get(i).getPosition()) < positionPlayer.getDistanceTo(nearest))
+				nearest = resources.get(i).getPosition();
+		}
+		return nearest;
+	}
+
+	/**
 	 * Donne la direction a aller pour se rendre a la cible
 	 * @param target la destination
 	 * @return un MoveAction dans la bonne direction pour se rendre
@@ -139,4 +158,13 @@ public class Bot extends BaseBot {
 		
 	}
 	
+	public boolean checkIfOthersNear(Player player, GameInfo info) {
+		List<Player> others = info.getOtherPlayers();
+		for(int i = 0; i < others.size(); i++) {
+			if(player.getDistanceTo(others.get(i)) < MAX_DISTANCE_BETWEEN_PLAYERS)
+				return true;
+		}
+		return false;
+	}
 }
+
