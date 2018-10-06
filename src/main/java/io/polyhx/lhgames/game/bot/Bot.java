@@ -26,8 +26,8 @@ public class Bot extends BaseBot {
 		this.others = others;
 		this.info = info;
 
-        
-		switch (mainState) {
+        return createMeleeAttackAction(Point.DOWN);
+		/*switch (mainState) {
 		case FINDRESOURCE : {
 			return findresource();
 		}
@@ -48,7 +48,7 @@ public class Bot extends BaseBot {
 			default : {
 				return null;
 			}
-		}
+		}*/
 	}
 	
 	public IAction findresource() {
@@ -73,6 +73,7 @@ public class Bot extends BaseBot {
 			mainState = State.GATHER;
 	        return createCollectAction(Point.DOWN);
 	    }
+	    /*
 	    else if (map.getTileAboveOf(currenTile).isWall()){
 	        return createMeleeAttackAction(Point.UP);
 	    }
@@ -84,7 +85,7 @@ public class Bot extends BaseBot {
 	    }
 	    else if (map.getTileBelowOf(currenTile).isWall()){
 	        return createMeleeAttackAction(Point.DOWN);
-	    }
+	    }*/
 	    
 	    
 		/*if(player.getPosition().equals(nearestAdjacentSpaceOf(nearestMineral))) {
@@ -112,15 +113,15 @@ public class Bot extends BaseBot {
 	    		&& !map.getTileLeftOf(currenTile).isResource()
 	    		&& !map.getTileRightOf(currenTile).isResource()
 	    		&& !map.getTileBelowOf(currenTile).isResource()){
-	    	if(player.getCarriedResource()<player.getResourceCapacity()) {
+	    	/* if(player.getCarriedResource()<player.getResourceCapacity()) {
 	    		mainState = State.FINDRESOURCE;
 	    		return findresource();
-	    	}
-	    	else {
+	    	} */
+	    	//else {
 				mainState = State.HOME;
 				 System.out.println("This will be visible from the dashboard.");
 				return pathfind(player.getHousePosition());
-	    	}
+	    	//}
 	    }
 	    
 		
