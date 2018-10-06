@@ -44,10 +44,11 @@ public class Bot extends BaseBot {
 			}
 			case GATHER: {
 				return gather();
-				break;
 			}
 			case HOME: {
-				//return getHomeAction();
+				if(player.getPosition()==player.getHousePosition())
+					mainState = State.GATHER;
+				pathfind(player.getHousePosition());
 				break;
 			}
 			case FLEE: {
