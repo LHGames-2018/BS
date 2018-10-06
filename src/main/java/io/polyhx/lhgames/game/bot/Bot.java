@@ -64,7 +64,7 @@ public class Bot extends BaseBot {
 	}
 	
 	public IAction gather() {
-		if (isNextToMineral()) {
+		if (isNextTo(nearestMineral)) {
 			
 		} else {
 			
