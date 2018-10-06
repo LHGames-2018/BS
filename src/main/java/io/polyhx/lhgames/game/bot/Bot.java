@@ -73,6 +73,8 @@ public class Bot extends BaseBot {
 		int diffX = target.getX() - player.getPosition().getX();
 		int diffY = target.getY() - player.getPosition().getY();
 		
+		
+		// le bot se deplace en ligne droite vers sa destination, ne tient pas compte des obstacles
 		if (Math.abs(diffX) > Math.abs(diffY)) {
 			if (diffX > 0) {
 				return createMoveAction(Point.RIGHT);				
