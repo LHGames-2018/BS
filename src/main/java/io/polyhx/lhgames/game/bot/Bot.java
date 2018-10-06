@@ -19,6 +19,10 @@ public class Bot extends BaseBot {
     		i++;
     		return createMoveAction(Point.UP);
     	}
+    	
+    	else {
+    		return null;
+    	}
 
     } 
 }
