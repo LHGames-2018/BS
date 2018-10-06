@@ -53,4 +53,15 @@ public class Bot extends BaseBot {
 		return createMoveAction(Point.UP);
 	}
 	
+	public Point getNearestResourcePoint(Map map, Player player){
+		List<ResourceTile> resources = map.getResources();
+		Point positionPlayer = player.getPosition();
+		Point nearest = new Point();
+		for(int i = 0; i < resources.size(); i++) {
+			if(positionPlayer.getDistanceTo(resources.get(i).getPosition()) < positionPlayer.getDistanceTo(nearest))
+				nearest = resources.get(i).getPosition();
+		}
+		return nearest;
+	}
 }
+
