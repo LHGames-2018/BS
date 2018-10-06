@@ -1,10 +1,9 @@
 package io.polyhx.lhgames.game.bot;
 
-import io.polyhx.lhgames.game.GameInfo;
-import io.polyhx.lhgames.game.Map;
-import io.polyhx.lhgames.game.Player;
-import io.polyhx.lhgames.game.action.IAction;
-import io.polyhx.lhgames.game.point.Point;
+import io.polyhx.lhgames.game.*;
+import io.polyhx.lhgames.game.action.*;
+import io.polyhx.lhgames.game.point.*;
+import io.polyhx.lhgames.game.tile.*;
 
 import java.util.List;
 
