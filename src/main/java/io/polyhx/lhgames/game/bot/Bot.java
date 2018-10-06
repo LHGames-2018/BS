@@ -24,6 +24,7 @@ public class Bot extends BaseBot {
 	private List<Player> others;
 	private GameInfo info;
 	private Player enemy;
+	private boolean nextToBreakable;
 
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		
@@ -32,6 +33,7 @@ public class Bot extends BaseBot {
 		this.others = others;
 		this.info = info;
 		this.enemy = null;
+		this.nextToBreakable = false;
 		
 		switch (mainState) {
 			case RUN_STRAIGHT: {
@@ -77,9 +79,13 @@ public class Bot extends BaseBot {
 	 */
 	public IAction gather() {
 		
-		Point nearestMineral = getNearestResourcePoint(map, player);
+		Point nearestMineral = getNearestResourcePoint();
 		
 		if (isNextTo(nearestMineral)) {
+			if(map.getTile(nearestMineral).isEmpty()) {
+				mainState = State.HOME;
+				return pathfind(player.getHousePosition());
+			}
 			return createCollectAction(directionOf(nearestMineral));
 		} else {
 			return pathfind(nearestAdjacentSpaceOf(nearestMineral));
@@ -153,7 +159,7 @@ public class Bot extends BaseBot {
 	 * @param carte, joueur
 	 * @return position de la ressource la plus proche
 	 */
-	public Point getNearestResourcePoint(Map map, Player player){
+	public Point getNearestResourcePoint(){
 		List<ResourceTile> resources = map.getResources();
 		Point positionPlayer = player.getPosition();
 		Point nearest = new Point();
@@ -349,12 +355,18 @@ public class Bot extends BaseBot {
 		
 	}
 	
-	public void checkIfOthersNear(Player player, GameInfo info) {
+	public void checkIfOthersNear() {
 		List<Player> others = info.getOtherPlayers();
 		for(int i = 0; i < others.size(); i++) {
 			if(player.getDistanceTo(others.get(i)) < MAX_DISTANCE_BETWEEN_PLAYERS)
 				mainState = State.ATTACK;
 				enemy = others.get(i);
+		}
+	}
+
+	public IAction getAttackAction() {
+		while(!isNextTo(enemy)) {
+			
 		}
 	}
 }
