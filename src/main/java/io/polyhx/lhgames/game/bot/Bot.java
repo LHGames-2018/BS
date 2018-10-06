@@ -14,27 +14,33 @@ public class Bot extends BaseBot {
 	private enum State {RUN_STRAIGHT, ATTACK, MOVE, GATHER, HOME, FLEE};
 
 	// L'etat principal du robot
-	private State mainState = RUN_STRAIGHT;
+	private State mainState = State.RUN_STRAIGHT;
 
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		switch (mainState) {
 		case RUN_STRAIGHT: {
 			return getRunStraightAction();
+			break;
 		}
 		case ATTACK: {
-			return getRunStraightAction();
+			return getAttackAction();
+			break;
 		}
 		case MOVE: {
-			return getRunStraightAction();
+			return getRunMoveAction();
+			break;
 		}
 		case GATHER: {
-			return getRunStraightAction();
+			return getGatherAction();
+			break;
 		}
 		case HOME: {
-			return getRunStraightAction();
+			return getHomeAction();
+			break;
 		}
 		case FLEE: {
-			return getRunStraightAction();
+			return getFleeAction();
+			break;
 		}
 		default : {
 			return null;
@@ -43,7 +49,7 @@ public class Bot extends BaseBot {
 	}
 	
 	// Courrir tout droit
-	public IAction getRunStraightAction() {
+	//public IAction getRunStraightAction() {
 		
 	}
 	
