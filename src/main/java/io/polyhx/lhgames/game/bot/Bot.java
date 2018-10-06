@@ -337,7 +337,9 @@ public class Bot extends BaseBot {
 		
 		Tile tile = this.map.getTile(target);
 		
-		if (tile.isEmpty() || tile.isHouse()) {
+		if (tile == null) {
+			return 10;
+		} else if (tile.isEmpty() || tile.isHouse()) {
 			return 10;
 		} else if (tile.isPlayer()) {
 			return 200;
