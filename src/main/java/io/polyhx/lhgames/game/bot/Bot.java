@@ -24,9 +24,18 @@ public class Bot extends BaseBot {
 	private GameInfo info;
 	private Player enemy;
 	int i = 0;
+	int j = 0;
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		
-
+		if (i < 7) {
+			i++;
+			return createMoveAction(Point.RIGHT);
+		}
+		if (j < 1) {
+			j++;
+			return createMoveAction(Point.DOWN);
+		}
+		return null;
 		/*this.map = map;
 		this.player = player;
 		this.others = others;
@@ -63,7 +72,7 @@ public class Bot extends BaseBot {
 			}
 		}
 		return null; */
-		return pathfind(player.getHousePosition());
+		//return pathfind(player.getHousePosition());
 		
 	}
 	
