@@ -20,10 +20,10 @@ public class Bot extends BaseBot {
     		return createMoveAction(Point.DOWN);
     	}
     	else {
-    		if(map.getTileBelowOf(player.getPosition()).getDensity() == 0) {
+    		//if(map.getTileBelowOf(player.getPosition()).getDensity() == 0) {
     			
-    		}
-    		createCollectAction(Point.DOWN);
+    		//}
+    		return createCollectAction(Point.DOWN);
     	}
     }
 }
