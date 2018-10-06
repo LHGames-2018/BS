@@ -26,13 +26,8 @@ public class Bot extends BaseBot {
 		this.others = others;
 		this.info = info;
 		
-		if(i < 1) {
-			i++;
-			return createMoveAction(Point.UP);
-			
-		}
-        return createMeleeAttackAction(Point.DOWN);
-		/*switch (mainState) {
+		
+		switch (mainState) {
 		case FINDRESOURCE : {
 			return findresource();
 		}
@@ -53,7 +48,7 @@ public class Bot extends BaseBot {
 			default : {
 				return null;
 			}
-		}*/
+		}
 	}
 	
 	public IAction findresource() {
