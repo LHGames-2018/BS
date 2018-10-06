@@ -35,11 +35,15 @@ public class Bot extends BaseBot {
                 return gather();
 			}
 			case HOME: {
-				if(player.getPosition()==player.getHousePosition()) {
+				
+				if(player.getPosition().equals(player.getHousePosition())) {
+					System.out.print("CANGE ATE FINDRESOURCE");
 					mainState = State.FINDRESOURCE;
 					return findresource();
 				}
-				else { return pathfind(player.getHousePosition()); }
+				else { 
+					System.out.print("GOING home");
+					return pathfind(player.getHousePosition()); }
 			}
 			default : {
 				return null;
@@ -203,7 +207,12 @@ public class Bot extends BaseBot {
 		
 		// si le bot est deja a destination
 		if (diffX == 0 && diffY == 0) {
-			return createMoveAction(new Point(0, 0));
+			if (mainState==State.HOME) {
+				System.out.print("CSGODKHGJSDKGRCE");
+				mainState = State.FINDRESOURCE;
+				return findresource();
+			}
+			
 		}
 		
 		// le bot se deplace en ligne droite vers sa destination, ne tient pas compte des obstacles
