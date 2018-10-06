@@ -22,6 +22,7 @@ public class Bot extends BaseBot {
 	private Player player;
 	private List<Player> others;
 	private GameInfo info;
+	private Player enemy;
 
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		
@@ -110,13 +111,12 @@ public class Bot extends BaseBot {
 		
 	}
 	
-	public boolean checkIfOthersNear(Player player, GameInfo info) {
+	public void checkIfOthersNear(Player player, GameInfo info) {
 		List<Player> others = info.getOtherPlayers();
 		for(int i = 0; i < others.size(); i++) {
 			if(player.getDistanceTo(others.get(i)) < MAX_DISTANCE_BETWEEN_PLAYERS)
-				return true;
+				mainState = State.ATTACK;
+				enemy = others.get(i);
 		}
-		return false;
 	}
 }
-
