@@ -23,6 +23,7 @@ public class Bot extends BaseBot {
 	private List<Player> others;
 	private GameInfo info;
 	private Player enemy;
+	private boolean nextToBreakable;
 
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		
@@ -31,6 +32,7 @@ public class Bot extends BaseBot {
 		this.others = others;
 		this.info = info;
 		this.enemy = null;
+		this.nextToBreakable = false;
 		
 		switch (mainState) {
 			case RUN_STRAIGHT: {
@@ -201,6 +203,12 @@ public class Bot extends BaseBot {
 			if(player.getDistanceTo(others.get(i)) < MAX_DISTANCE_BETWEEN_PLAYERS)
 				mainState = State.ATTACK;
 				enemy = others.get(i);
+		}
+	}
+
+	public IAction getAttackAction() {
+		while(!isNextTo(enemy)) {
+			
 		}
 	}
 }
