@@ -11,6 +11,19 @@ import java.util.List;
 public class Bot extends BaseBot {
 	static int i = 0; 
     public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
-    	return createMeleeAttackAction(Point.RIGHT);
+    	if (i < 5) {
+    		i++;
+    		return createMoveAction(Point.RIGHT);
+    	}
+    	if (i >= 5 && i < 9) {
+    		i++;
+    		return createMoveAction(Point.DOWN);
+    	}
+    	else {
+    		if(map.getTileBelowOf(player.getPosition()).getDensity() == 0) {
+    			
+    		}
+    		createCollectAction(Point.DOWN);
+    	}
     }
 }
