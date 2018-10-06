@@ -11,11 +11,11 @@ import java.util.List;
 public class Bot extends BaseBot {
 	static int i = 0; 
     public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
-    	if (i < 5) {
+    	if (i >= 1 && i < 2) {
     		i++;
     		return createMoveAction(Point.RIGHT);
     	}
-    	if (i >= 5 && i < 9) {
+    	if (i < 1) {
     		i++;
     		return createMoveAction(Point.DOWN);
     	}
@@ -23,7 +23,7 @@ public class Bot extends BaseBot {
     		//if(map.getTileBelowOf(player.getPosition()).getDensity() == 0) {
     			
     		//}
-    		return createCollectAction(Point.DOWN);
+    		return createCollectAction(Point.RIGHT);
     	}
     }
 }
