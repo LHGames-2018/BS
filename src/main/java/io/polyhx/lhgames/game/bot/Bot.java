@@ -30,6 +30,7 @@ public class Bot extends BaseBot {
 		this.player = player;
 		this.others = others;
 		this.info = info;
+		this.enemy = null;
 		
 		switch (mainState) {
 			case RUN_STRAIGHT: {
