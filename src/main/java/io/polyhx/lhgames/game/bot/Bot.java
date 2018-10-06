@@ -25,51 +25,25 @@ public class Bot extends BaseBot {
 	private Player enemy;
 	int i = 0;
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
-		
-		if (i < 9) {
-			i++;
-			return createMoveAction(Point.RIGHT);
-		}
-		else
-			return createCollectAction(Point.RIGHT);
-		/*this.map = map;
+		this.map = map;
 		this.player = player;
 		this.others = others;
 		this.info = info;
 		this.enemy = null;
-		
+        
 		switch (mainState) {
-			case RUN_STRAIGHT: {
-				return getRunStraightAction();
-			}
-			case ATTACK: {
-				//return getAttackAction();
-				break;
-			}
-			case MOVE: {
-				//return getRunMoveAction();
-				break;
-			}
 			case GATHER: {
-				return gather();
+                return gather();
 			}
 			case HOME: {
 				if(player.getPosition()==player.getHousePosition())
 					mainState = State.GATHER;
-				pathfind(player.getHousePosition());
-				break;
-			}
-			case FLEE: {
-				//return getFleeAction();
-				break;
+				return pathfind(player.getHousePosition());
 			}
 			default : {
 				return null;
 			}
 		}
-		return null; */
-		//return pathfind(player.getHousePosition());
-		
 	}
 	
 	// Courrir tout droit
