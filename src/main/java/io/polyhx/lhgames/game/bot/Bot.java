@@ -118,7 +118,7 @@ public class Bot extends BaseBot {
 	 * @param carte, joueur
 	 * @return position de la ressource la plus proche
 	 */
-	public Point getNearestResourcePoint(Map map, Player player){
+	public Point getNearestResourcePoint(){
 		List<ResourceTile> resources = map.getResources();
 		Point positionPlayer = player.getPosition();
 		Point nearest = new Point();
@@ -161,7 +161,7 @@ public class Bot extends BaseBot {
 		
 	}
 	
-	public void checkIfOthersNear(Player player, GameInfo info) {
+	public void checkIfOthersNear() {
 		List<Player> others = info.getOtherPlayers();
 		for(int i = 0; i < others.size(); i++) {
 			if(player.getDistanceTo(others.get(i)) < MAX_DISTANCE_BETWEEN_PLAYERS)
