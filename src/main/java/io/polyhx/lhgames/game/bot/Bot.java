@@ -81,6 +81,10 @@ public class Bot extends BaseBot {
 		Point nearestMineral = getNearestResourcePoint();
 		
 		if (isNextTo(nearestMineral)) {
+			if(map.getTile(nearestMineral).isEmpty()) {
+				mainState = State.HOME;
+				return pathfind(player.getHousePosition());
+			}
 			return createCollectAction(directionOf(nearestMineral));
 		} else {
 			return pathfind(nearestAdjacentSpaceOf(nearestMineral));
