@@ -26,11 +26,7 @@ public class Bot extends BaseBot {
 	int i = 0;
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		
-		if ( i < 1) {
-			i++;
-			return createMoveAction(Point.RIGHT);
-		}
-		else return null;
+
 		/*this.map = map;
 		this.player = player;
 		this.others = others;
@@ -67,7 +63,7 @@ public class Bot extends BaseBot {
 			}
 		}
 		return null; */
-		//return pathfind(player.getHousePosition());
+		return pathfind(player.getHousePosition());
 		
 	}
 	
@@ -186,18 +182,22 @@ public class Bot extends BaseBot {
 		}
 		
 		// le bot se deplace en ligne droite vers sa destination, ne tient pas compte des obstacles
-		if (Math.abs(diffX) > Math.abs(diffY)) {
+		if (diffX !=0) {
 			if (diffX > 0) {
 				return createMoveAction(Point.RIGHT);				
 			} else {
 				return createMoveAction(Point.LEFT);
 			}
-		} else {
+		} else if (diffY != 0) {
 			if (diffY > 0) {
 				return createMoveAction(Point.DOWN);				
 			} else {
 				return createMoveAction(Point.UP);
 			}
+			
+		}
+		else {
+			return null;
 		}
 		
 	}
