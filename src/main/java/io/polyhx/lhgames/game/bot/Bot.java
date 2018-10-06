@@ -67,7 +67,7 @@ public class Bot extends BaseBot {
 			return pathfind(player.getHousePosition());
 		}
 		 System.out.println("This will be visible from the dashboard.jk");
-		 System.out.println(directionOf(nearestMineral).getX().toString());
+		 System.out.println(directionOf(nearestMineral).getX());
 		return createCollectAction(directionOf(nearestMineral));
 		
 	}
