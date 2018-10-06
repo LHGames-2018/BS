@@ -17,40 +17,41 @@ public class Bot extends BaseBot {
 	private State mainState = State.RUN_STRAIGHT;
 
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
+		
 		switch (mainState) {
-		case RUN_STRAIGHT: {
-			return getRunStraightAction();
-			break;
+			case RUN_STRAIGHT: {
+				return getRunStraightAction();
+			}
+			case ATTACK: {
+				//return getAttackAction();
+				break;
+			}
+			case MOVE: {
+				//return getRunMoveAction();
+				break;
+			}
+			case GATHER: {
+				//return getGatherAction();
+				break;
+			}
+			case HOME: {
+				//return getHomeAction();
+				break;
+			}
+			case FLEE: {
+				//return getFleeAction();
+				break;
+			}
+			default : {
+				return null;
+			}
 		}
-		case ATTACK: {
-			return getAttackAction();
-			break;
-		}
-		case MOVE: {
-			return getRunMoveAction();
-			break;
-		}
-		case GATHER: {
-			return getGatherAction();
-			break;
-		}
-		case HOME: {
-			return getHomeAction();
-			break;
-		}
-		case FLEE: {
-			return getFleeAction();
-			break;
-		}
-		default : {
-			return null;
-		}
-		}
+		return null;
 	}
 	
 	// Courrir tout droit
-	//public IAction getRunStraightAction() {
-		
+	public IAction getRunStraightAction() {
+		return createMoveAction(Point.UP);
 	}
 	
 }
