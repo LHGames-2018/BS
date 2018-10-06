@@ -363,10 +363,5 @@ public class Bot extends BaseBot {
 				enemy = others.get(i);
 		}
 	}
-
-	public IAction getAttackAction() {
-		while(!isNextTo(enemy)) {
-			
-		}
-	}
+	
 }
