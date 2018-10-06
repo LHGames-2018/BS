@@ -66,7 +66,6 @@ public class Bot extends BaseBot {
 			}
 		}
 		return null; */
-		return
 		//return pathfind(player.getHousePosition());
 		
 	}
