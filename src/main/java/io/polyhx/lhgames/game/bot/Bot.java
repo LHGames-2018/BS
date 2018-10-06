@@ -76,7 +76,7 @@ public class Bot extends BaseBot {
 	 */
 	public IAction gather() {
 		
-		Point nearestMineral = getNearestResourcePoint(map, player);
+		Point nearestMineral = getNearestResourcePoint();
 		
 		if (isNextTo(nearestMineral)) {
 			return createCollectAction(directionOf(nearestMineral));
