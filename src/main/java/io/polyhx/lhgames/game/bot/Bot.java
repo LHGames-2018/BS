@@ -18,14 +18,19 @@ public class Bot extends BaseBot {
 	private Player player;
 	private List<Player> others;
 	private GameInfo info;
-
+	private int i = 0;
 
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		this.map = map;
 		this.player = player;
 		this.others = others;
 		this.info = info;
-
+		
+		if(i < 1) {
+			i++;
+			return createMoveAction(Point.UP);
+			
+		}
         return createMeleeAttackAction(Point.DOWN);
 		/*switch (mainState) {
 		case FINDRESOURCE : {
