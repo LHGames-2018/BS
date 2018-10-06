@@ -171,7 +171,7 @@ public class Bot extends BaseBot {
 	 * @param target la destination
 	 * @return un MoveAction dans la bonne direction pour se rendre
 	 */
-	public MoveAction pathfind(IPoint target) {
+	public IAction pathfind(IPoint target) {
 		
 		int diffX = target.getX() - player.getPosition().getX();
 		int diffY = target.getY() - player.getPosition().getY();
