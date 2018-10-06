@@ -15,10 +15,10 @@ public class Bot extends BaseBot {
 	// L'etat principal du robot
 	private State mainState = State.RUN_STRAIGHT;
 
-	Map map;
-	Player player;
-	List<Player> others;
-	GameInfo info;
+	private Map map;
+	private Player player;
+	private List<Player> others;
+	private GameInfo info;
 
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		
