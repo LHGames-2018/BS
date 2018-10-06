@@ -26,8 +26,9 @@ public class Bot extends BaseBot {
 	int i = 0;
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
 		
-		if ( i < 7) {
-			return createMoveAction(Point.LEFT);
+		if ( i < 1) {
+			i++;
+			return createMoveAction(Point.RIGHT);
 		}
 		else return null;
 		/*this.map = map;
