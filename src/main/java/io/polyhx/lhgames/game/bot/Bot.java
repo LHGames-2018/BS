@@ -51,10 +51,10 @@ public class Bot extends BaseBot {
 				return gather();
 			}
 			case HOME: {
-				if(player.getPosition()==player.getHousePosition())
+				if(player.getPosition().equals(player.getHousePosition())) {
 					mainState = State.GATHER;
-				pathfind(player.getHousePosition());
-				break;
+				}
+				return pathfind(player.getHousePosition());
 			}
 			case FLEE: {
 				//return getFleeAction();
@@ -81,11 +81,12 @@ public class Bot extends BaseBot {
 		
 		Point nearestMineral = getNearestResourcePoint();
 		
-		if (isNextTo(nearestMineral)) {
-			if(map.getTile(nearestMineral).isEmpty()) {
-				mainState = State.HOME;
-				return pathfind(player.getHousePosition());
-			}
+		// naif, si on possede des ressources, on les ramene
+		if (player.getCarriedResource() > 0) {
+			this.mainState = State.HOME;
+			return getAction(map, player, others, info);
+		}
+		else if (isNextTo(nearestMineral)) {
 			return createCollectAction(directionOf(nearestMineral));
 		} else {
 			return pathfind(nearestAdjacentSpaceOf(nearestMineral));
