@@ -69,13 +69,21 @@ public class Bot extends BaseBot {
 		return createMoveAction(Point.UP);
 	}
 	
+	
+	/**
+	 * Donne l'action que le bot doit executer pout amasser des ressources
+	 * @return
+	 */
 	public IAction gather() {
+		
+		Point nearestMineral = getNearestResourcePoint(map, player);
+		
 		if (isNextTo(nearestMineral)) {
-			
+			return createCollectAction(directionOf(nearestMineral));
 		} else {
-			
-			pathfind(nearestMineral);
+			return pathfind(nearestAdjacentSpaceOf(nearestMineral));
 		}
+		
 	}
 	
 	public boolean isNextTo(IPoint target) {
@@ -110,6 +118,32 @@ public class Bot extends BaseBot {
 		}
 		
 		return new Point(targetX, targetY);
+		
+	}
+	
+	/**
+	 * Donne la direction d'un point
+	 * @param target
+	 * @return
+	 */
+	public Point directionOf(IPoint target) {
+		
+		int diffX = target.getX() - player.getPosition().getX();
+		int diffY = target.getY() - player.getPosition().getY();
+		
+		if (Math.abs(diffX) > Math.abs(diffY)) {
+			if (diffX > 0) {
+				return Point.RIGHT;				
+			} else {
+				return Point.LEFT;
+			}
+		} else {
+			if (diffY > 0) {
+				return Point.DOWN;				
+			} else {
+				return Point.UP;
+			}
+		}
 		
 	}
 	
