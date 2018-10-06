@@ -50,6 +50,7 @@ public class Bot extends BaseBot {
 		Point nearestMineral = getNearestResourcePoint();
 		if(player.getPosition().equals(nearestAdjacentSpaceOf(nearestMineral))) {
 			mainState = State.GATHER;
+			System.out.println("This will be visible from the dashboard.jkfindresounrrersa");
 			return createCollectAction(directionOf(nearestMineral));
 		}
 			
