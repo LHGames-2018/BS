@@ -17,7 +17,7 @@ public class Bot extends BaseBot {
 	private enum State {RUN_STRAIGHT, ATTACK, MOVE, GATHER, HOME, FLEE};
 
 	// L'etat principal du robot
-	private State mainState = State.RUN_STRAIGHT;
+	private State mainState = State.GATHER;
 
 	private Map map;
 	private Player player;
@@ -27,6 +27,7 @@ public class Bot extends BaseBot {
 	private boolean nextToBreakable;
 
 	public IAction getAction(Map map, Player player, List<Player> others, GameInfo info) {
+		
 		
 		this.map = map;
 		this.player = player;
@@ -65,6 +66,7 @@ public class Bot extends BaseBot {
 			}
 		}
 		return null;
+		
 	}
 	
 	// Courrir tout droit
@@ -228,6 +230,7 @@ public class Bot extends BaseBot {
 		HashMap<IPoint, AStarNode> closed = new HashMap<IPoint, AStarNode>();
 		
 		AStarNode origin = new AStarNode();
+		origin.p = a;
 		origin.gCost = 0;
 		origin.hCost = (int)(a.getDistanceTo(b));
 		origin.fCost = origin.hCost;
@@ -238,7 +241,6 @@ public class Bot extends BaseBot {
 		AStarNode[] neighbors = new AStarNode[4];
 		
 		while (true) {
-			
 			// trouver le plus petit fcost
 			AStarNode smallest = null;
 			for (java.util.Map.Entry<IPoint, AStarNode> c : open.entrySet()) {
@@ -258,16 +260,19 @@ public class Bot extends BaseBot {
 			
 			// condition d'arret
 			if (current.p.equals(b)) {
+				System.out.println("found it");
 				while (current.parent != origin) {
 					current = current.parent;
 				}
 				return current.p;
 			}
 			
+			// trouver les voisins
 			neighbors[0] = new AStarNode(new Point(current.p.getX(), current.p.getY()+1), current, b);
 			neighbors[1] = new AStarNode(new Point(current.p.getX(), current.p.getY()-1), current, b);
 			neighbors[2] = new AStarNode(new Point(current.p.getX()+1, current.p.getY()), current, b);
 			neighbors[3] = new AStarNode(new Point(current.p.getX()-1, current.p.getY()), current, b);
+			
 			
 			for (AStarNode node : neighbors) {
 				if (!closed.containsKey(node.p)) {
